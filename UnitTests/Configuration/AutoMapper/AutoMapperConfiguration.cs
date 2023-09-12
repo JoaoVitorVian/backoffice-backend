@@ -2,11 +2,6 @@
 using AutoMapper;
 using BackOffice.ViewModels.User;
 using Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UnitTests.AutoMapper
 {
@@ -20,6 +15,15 @@ namespace UnitTests.AutoMapper
                     .ReverseMap();
 
                 cfg.CreateMap<CreateUserViewModel, UserViewModel>()
+                    .ReverseMap();
+
+                cfg.CreateMap<User, UserUpdateViewModel>()
+                    .ReverseMap();
+
+                cfg.CreateMap<UpdateUserViewModel, UserUpdateViewModel>()
+                    .ReverseMap();
+
+                cfg.CreateMap<Departamento, DepartamentoViewModel>()
                     .ReverseMap();
 
                 cfg.CreateMap<UpdateUserViewModel, UserUpdateViewModel>()

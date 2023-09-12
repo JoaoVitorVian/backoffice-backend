@@ -11,6 +11,8 @@ namespace Infra.Interfaces
     {
         Task<User> GetByName(string name);
 
+        Task<User> GetByDocument(string document);
+
         Task<List<User>> SearchByName(string name);
     }
 }

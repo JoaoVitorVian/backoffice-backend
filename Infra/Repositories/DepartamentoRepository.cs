@@ -23,7 +23,7 @@ namespace Infra.Repositories
         {
             var dep = await _context.Departamentos
                                      .Where(
-                                        x => x.NomeResponsavel.ToLower() == name.ToLower()
+                                        x => x.NomeDepartamento.ToLower() == name.ToLower()
                                      )
                                      .AsNoTracking()
                                      .ToListAsync();

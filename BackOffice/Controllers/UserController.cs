@@ -88,7 +88,7 @@ namespace BackOffice.Controllers
             }
             catch (DomainExceptions ex)
             {
-                return BadRequest("Mesmo Nome");
+                return BadRequest("Mesmo Nome ou Documento.");
             }
             catch (Exception)
             {

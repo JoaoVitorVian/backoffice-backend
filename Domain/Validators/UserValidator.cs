@@ -1,10 +1,5 @@
 ﻿using Domain.Entity;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Validators
 {
@@ -26,7 +21,7 @@ namespace Validators
 
             RuleFor(x => x.Qualificacoes)
                .NotNull()
-               .WithMessage("O Qualificacoes não pode ser nulo");
+               .WithMessage("As Qualificacões não podem ser nulas");
 
             RuleFor(x => x.Bairro)
                .NotNull()

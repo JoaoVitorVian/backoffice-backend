@@ -63,11 +63,11 @@ namespace BackOffice.Controllers
             }
             catch (DomainExceptions ex)
             {
-                return BadRequest("Mesmo Nome");
+                return BadRequest("Mesmo Nome Responsavel ou departamento.");
             }
             catch (Exception)
             {
-                return StatusCode(500, "Erro");
+                return StatusCode(500,"Erro");
             }
         }
 

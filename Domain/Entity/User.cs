@@ -24,6 +24,8 @@ namespace Domain.Entity
 
         public string Qualificacoes { get;  set; }
 
+        public DateTime DataAtualizacao { get; set; }
+
         public User() { }
 
         public User(string name, string apelido, string localidade, string tipoDePessoa, string documento, string qualificacoes, string bairro, string cep)
@@ -51,6 +53,8 @@ namespace Domain.Entity
 
                 throw new DomainExceptions("Alguns campos estão invalidos, corrija-os", _errors);
             }
+
+            DataAtualizacao = DateTime.Now;
             return true;
         }
     }

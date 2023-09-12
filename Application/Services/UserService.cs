@@ -4,13 +4,6 @@ using AutoMapper;
 using Core.Exceptions;
 using Domain.Entity;
 using Infra.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Claims;
 
 namespace Application.Services
 {
@@ -18,22 +11,21 @@ namespace Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        private readonly HttpClient _httpClient;
 
         public UserService(IMapper mapper, IUserRepository userRepository, HttpClient httpClient)
         {
             _mapper = mapper;
             _userRepository = userRepository;
-            _httpClient = httpClient;
         }
 
         public async Task<UserViewModel> RegistroPessoas(UserViewModel userDTO)
         {
             var userExists = await _userRepository.GetByName(userDTO.Name);
+            var documentExists = await _userRepository.GetByDocument(userDTO.Documento);
 
-            if (userExists != null)
+            if (userExists != null || documentExists != null)
             {
-                throw new DomainExceptions("Já uma pessoa com esse nome");
+                throw new DomainExceptions("Documento ou Nome já existem.");
             }
 
             var user = _mapper.Map<User>(userDTO);
@@ -46,9 +38,8 @@ namespace Application.Services
 
         public async Task<UserUpdateViewModel> Update(UserUpdateViewModel userDTO)
         {
-            var userExists = await _userRepository.Get(userDTO.Id);
-
             var user = _mapper.Map<User>(userDTO);
+            user.Validate();
 
             var userCreated = await _userRepository.Update(user);
 

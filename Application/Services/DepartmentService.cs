@@ -4,55 +4,44 @@ using AutoMapper;
 using Core.Exceptions;
 using Domain.Entity;
 using Infra.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Claims;
 
-namespace Application.Services
+namespace Department.Application.Services
 {
     public class DepartmentService : IDepartmentService
     {
         private readonly IMapper _mapper;
         private readonly IDepartamentoRepository _departamentoRepository;
-        private readonly HttpClient _httpClient;
 
-        public DepartmentService(IMapper mapper, HttpClient httpClient, IDepartamentoRepository departamentoRepository)
+        public DepartmentService(IMapper mapper, IDepartamentoRepository departamentoRepository)
         {
             _mapper = mapper;
-            _httpClient = httpClient;
             _departamentoRepository = departamentoRepository;
         }
 
         public async Task<DepartamentoViewModel> RegistroDepartamento(DepartamentoViewModel departamentoDTO)
         {
-            var depExists = await _departamentoRepository.GetByName(departamentoDTO.NomeResponsavel);
-
+            var depExists = await _departamentoRepository.GetByName(departamentoDTO.NomeDepartamento);
             if (depExists != null)
             {
-                throw new DomainExceptions("Já existe uma pessoa com esse departamento");
+                throw new DomainExceptions("Já existe um departamento com este nome.");
             }
 
             var departamento = _mapper.Map<Departamento>(departamentoDTO);
             departamento.Validate();
 
-            var userCreated = await _departamentoRepository.Create(departamento);
+            var departamentoCreated = await _departamentoRepository.Create(departamento);
 
-            return _mapper.Map<DepartamentoViewModel>(userCreated);
+            return _mapper.Map<DepartamentoViewModel>(departamentoCreated);
         }
 
-        public async Task<DepartamentoViewModel> UpdateDepartamento(DepartamentoViewModel userDTO)
+        public async Task<DepartamentoViewModel> UpdateDepartamento(DepartamentoViewModel departamentoDTO)
         {
-            var userExists = await _departamentoRepository.Get(userDTO.Id);
+            var departamento = _mapper.Map<Departamento>(departamentoDTO);
+            departamento.Validate();
 
-            var user = _mapper.Map<Departamento>(userDTO);
+            var departamentoCreated = await _departamentoRepository.Update(departamento);
 
-            var userCreated = await _departamentoRepository.Update(user);
-
-            return _mapper.Map<DepartamentoViewModel>(userCreated);
+            return _mapper.Map<DepartamentoViewModel>(departamentoCreated);
         }
 
         public async Task RemoveDepartamento(long id)

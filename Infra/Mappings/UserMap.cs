@@ -68,8 +68,6 @@ namespace Infra.Mappings
                .HasMaxLength(40)
                .HasColumnName("qualificacoes")
                .HasColumnType("VARCHAR(40)");
-
-
         }
     }
 }

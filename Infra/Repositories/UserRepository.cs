@@ -31,6 +31,18 @@ namespace Infra.Repositories
             return user.FirstOrDefault();
         }
 
+        public async Task<User> GetByDocument(string document)
+        {
+            var user = await _context.Users
+                                     .Where(
+                                        x => x.Documento.ToLower() == document.ToLower()
+                                     )
+                                     .AsNoTracking()
+                                     .ToListAsync();
+
+            return user.FirstOrDefault();
+        }
+
 
         public async Task<List<User>> SearchByName(string name)
         {

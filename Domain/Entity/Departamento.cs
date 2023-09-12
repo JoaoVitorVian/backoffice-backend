@@ -12,6 +12,7 @@ public class Departamento : Base
 {
         public string NomeDepartamento { get; set; }
         public string NomeResponsavel { get; set; }
+        public DateTime DataAtualizacao { get; set; }
 
         public override bool Validate()
         {
@@ -25,6 +26,8 @@ public class Departamento : Base
 
                     throw new DomainExceptions("Alguns campos estão invalidos, corrija-os", _errors);
            }
+
+            DataAtualizacao = DateTime.Now;
             return true;
         }
    }
