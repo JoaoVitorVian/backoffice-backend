@@ -7,9 +7,7 @@ using Domain.Entity;
 using Infra.Context;
 using Infra.Interfaces;
 using Infra.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc(name: "v1", new OpenApiInfo
     {
-        Title = "Nerd Store API",
+        Title = "Back-Office API",
         Contact = new OpenApiContact() { Name = "João Vitor", Email = "joaovitorvian@gmail.com" },
         License = new OpenApiLicense() { Name = "MIT", Url = new Uri(uriString: "https://opensource.org/license/MIT") }
 
@@ -30,6 +28,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
 

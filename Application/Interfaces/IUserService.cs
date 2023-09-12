@@ -11,21 +11,13 @@ namespace Application.Interfaces
     {
         Task<UserViewModel> RegistroPessoas(UserViewModel userDTO);
 
-        Task<DepartamentoViewModel> RegistroDepartamento(DepartamentoViewModel depDto);
-
         Task<UserUpdateViewModel> Update(UserUpdateViewModel userDTO);
-
-        Task<DepartamentoViewModel> UpdateDepartamento(DepartamentoViewModel userDTO);
         
         Task Remove(long id);
-
-        Task RemoveDepartamento(long id);
 
         Task<UserViewModel> Get(long id);
 
         Task<List<UserViewModel>> GetAll();
-
-        Task<List<DepartamentoViewModel>> GetAllDepartamento();
 
         Task<List<UserViewModel>> SearchByName(string name);
 

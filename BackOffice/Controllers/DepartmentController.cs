@@ -9,24 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace BackOffice.Controllers
 {
     [ApiController]
-    public class UserController : ControllerBase
+    public class DepartmentController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IDepartmentService _departmentService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public DepartmentController(IDepartmentService departmentService, IMapper mapper)
         {
-            _userService = userService;
+            _departmentService = departmentService;
             _mapper = mapper;
         }
 
         [HttpGet]
-        [Route("/api/v1/users/getAll")]
-        public async Task<IActionResult> GetAll()
+        [Route("/api/v1/departamento/getAll")]
+        public async Task<IActionResult> GetAllDepartamento()
         {
             try
             {
-                var allUsers = await _userService.GetAll();
+                var allUsers = await _departmentService.GetAllDepartamento();
 
                 return Ok(new ResultViewModel
                 {
@@ -45,45 +45,20 @@ namespace BackOffice.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("/api/v1/users/getById/{id}")]
-        public async Task<IActionResult> GetById(long id)
-        {
-            try
-            {
-                var usersById = await _userService.Get(id);
-
-                return Ok(new ResultViewModel
-                {
-                    Message = "Successfully",
-                    Success = true,
-                    Data = usersById
-                });
-            }
-            catch (DomainExceptions ex)
-            {
-                return BadRequest();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Erro");
-            }
-        }
-
         [HttpPost]
-        [Route("/api/v1/users/create-users")]
-        public async Task<IActionResult> Create([FromBody] CreateUserViewModel userViewModel)
+        [Route("/api/v1/departamento/create-departamento")]
+        public async Task<IActionResult> CreateDepartamento([FromBody] CreateDepartamentoViewModel userViewModel)
         {
             try
             {
-                var userDTO = _mapper.Map<UserViewModel>(userViewModel);
-                var userCreated = await _userService.RegistroPessoas(userDTO);
+                var depDTO = _mapper.Map<DepartamentoViewModel>(userViewModel);
+                var depCreated = await _departmentService.RegistroDepartamento(depDTO);
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "User created successfully",
+                    Message = "Departamento created successfully",
                     Success = true,
-                    Data = userCreated
+                    Data = depCreated
                 });
             }
             catch (DomainExceptions ex)
@@ -96,21 +71,20 @@ namespace BackOffice.Controllers
             }
         }
 
-
         [HttpPut]
-        [Route("/api/v1/users/update-users/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserViewModel userViewModel)
+        [Route("/api/v1/departamento/update-departamento/{id}")]
+        public async Task<IActionResult> UpdateDepartamento(int id, [FromBody] UpdateDepartamentoViewModel userViewModel)
         {
             try
             {
-                var userDTO = _mapper.Map<UserUpdateViewModel>(userViewModel);
+                var userDTO = _mapper.Map<DepartamentoViewModel>(userViewModel);
                 userDTO.Id = id;
 
-                var updatedUser = await _userService.Update(userDTO);
+                var updatedUser = await _departmentService.UpdateDepartamento(userDTO);
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "User updated successfully",
+                    Message = "Departamento updated successfully",
                     Success = true,
                     Data = updatedUser
                 });
@@ -126,12 +100,12 @@ namespace BackOffice.Controllers
         }
 
         [HttpDelete]
-        [Route("/api/v1/users/remove-users/{id}")]
-        public async Task<IActionResult> Remove(long id)
+        [Route("/api/v1/departamento/remove-departamento/{id}")]
+        public async Task<IActionResult> RemoveDepartamento(long id)
         {
             try
             {
-                await _userService.Remove(id);
+                await _departmentService.RemoveDepartamento(id);
 
                 return Ok(new ResultViewModel
                 {
